@@ -1,0 +1,18 @@
+<h1>Show Duration work</h1>
+
+<ul>
+
+  <li>
+    <strong>Start time:</strong>
+    <%= @duration_work.start_time %>
+  </li>
+
+  <li>
+    <strong>End time:</strong>
+    <%= @duration_work.end_time %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.duration_work_path(@conn, :edit, @duration_work) %></span>
+<span><%= link "Back", to: Routes.duration_work_path(@conn, :index) %></span>

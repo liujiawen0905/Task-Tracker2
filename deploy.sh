@@ -23,4 +23,4 @@ mix release
 
 echo "Starting app..."
 
-_build/prod/rel/Task-Tracker/bin/Task-Tracker foreground
+_build/prod/rel/task_tracker/bin/task_tracker foreground

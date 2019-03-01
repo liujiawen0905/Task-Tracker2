@@ -20,7 +20,7 @@ defmodule TaskTrackerWeb.Router do
     get "/", PageController, :index
     resources "/tasks", TaskController
     resources "/users", UserController
-    resources "duration_work", DurationWorkController
+    resources "/duration_work", DurationWorkController
     resources "/sessions", SessionController, only: [:create, :delete], singleton: true
   end
 

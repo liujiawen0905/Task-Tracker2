@@ -6,7 +6,6 @@ defmodule TaskTracker.Duration.DurationWork do
   schema "duration_work" do
     field :end_time, :naive_datetime
     field :start_time, :naive_datetime
-    # field :task_id, :id
     belongs_to :task, TaskTracker.Tasks.Task
     belongs_to :user, TaskTracker.Users.User
 

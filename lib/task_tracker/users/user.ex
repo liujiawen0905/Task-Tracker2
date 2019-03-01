@@ -7,6 +7,8 @@ defmodule TaskTracker.Users.User do
     field :admin, :boolean, default: false
     field :email, :string
     has_many :duration_work, TaskTracker.Duration.DurationWork
+    has_many :task, TaskTracker.Tasks.Task
+
 
     timestamps()
   end

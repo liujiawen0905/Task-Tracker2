@@ -8,7 +8,7 @@ defmodule TaskTracker.Tasks.Task do
     field :name, :string
     field :task_status, :boolean, default: false
     field :work_time, :integer
-    has_many :duration_work, TaskTracker.Duration.DurationWork
+    has_many :time_block, TaskTracker.TimeBlocks.TimeBlock
     belongs_to :user, TaskTracker.Users.User
 
     timestamps()

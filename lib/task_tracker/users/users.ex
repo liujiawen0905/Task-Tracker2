@@ -19,6 +19,7 @@ defmodule TaskTracker.Users do
   """
   def list_users do
     Repo.all(User)
+    # |> Repo.preload([:tasks, :managers, :underlings])
   end
 
   @doc """
@@ -35,13 +36,13 @@ defmodule TaskTracker.Users do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id)
-
-  def get_user(id) do
-    Repo.one from u in User,
-      where: u.id == ^id,
-      preload: [duration_work: :task]
+  def get_user!(id) do
+    Repo.one! from u in User,
+    where: u.id == ^id,
+    preload: [:underlings]
   end
+
+  def get_user(id), do: Repo.get(User, id)
 
 
   def get_user_by_email(email) do
@@ -112,4 +113,13 @@ defmodule TaskTracker.Users do
   def change_user(%User{} = user) do
     User.changeset(user, %{})
   end
+
+
+  def get_underlings(id) do
+        query = from u in User,
+        where: u.manager == ^id
+        Repo.all(query)
+        |> Repo.preload([:task, :underlings])
+  end
+
 end

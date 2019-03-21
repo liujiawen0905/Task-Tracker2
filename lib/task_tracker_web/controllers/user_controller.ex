@@ -6,12 +6,20 @@ defmodule TaskTrackerWeb.UserController do
 
   def index(conn, _params) do
     users = Users.list_users()
-    render(conn, "index.html", users: users)
+    user = Users.get_user(get_session(conn, :user_id) || -1)
+    user_id =
+    if is_nil(user) do
+      -1
+    else
+      user.id
+    end
+    render(conn, "index.html", users: users, user_id: user_id)
   end
 
   def new(conn, _params) do
     changeset = Users.change_user(%User{})
-    render(conn, "new.html", changeset: changeset)
+    users = Users.list_users()
+    render(conn, "new.html", changeset: changeset, users: users)
   end
 
   def create(conn, %{"user" => user_params}) do
@@ -29,7 +37,9 @@ defmodule TaskTrackerWeb.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
-    render(conn, "show.html", user: user)
+    manager_id = user.manager
+    manager = Users.get_user!(manager_id)
+    render(conn, "show.html", user: user, manager: manager)
   end
 
   def edit(conn, %{"id" => id}) do

@@ -31,11 +31,11 @@
 
   <div class="form-group">
     <%= label f, :user_id %>
-    <%= select f, :user_id, Enum.map(@users, fn x -> {x.email, x.id} end) %>
+    <%= select f, :user_id, Enum.map(@underlings, fn x -> {x.email, x.id} end) %>
     <%= error_tag f, :user_id %>
   </div>
 
   <div>
-    <%= submit "Submit Tasks", class: "btn btn-primary" %>
+    <%= submit "Assign Tasks", class: "btn btn-primary" %>
   </div>
 <% end %>

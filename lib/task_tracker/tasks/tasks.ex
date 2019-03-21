@@ -19,6 +19,7 @@ defmodule TaskTracker.Tasks do
   """
   def list_tasks do
     Repo.all(Task)
+    |> Repo.preload([:user])
   end
 
   @doc """
@@ -36,9 +37,8 @@ defmodule TaskTracker.Tasks do
 
   """
   def get_task!(id) do
-    Repo.one! from p in Task,
-       where: p.id == ^id,
-       preload: [:duration_work, :user]
+    Repo.get!(Task, id)
+    |> Repo.preload([:time_block, :user])
   end
 
   @doc """

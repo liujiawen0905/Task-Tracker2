@@ -5,14 +5,25 @@ defmodule TaskTrackerWeb.TaskController do
   alias TaskTracker.Tasks.Task
   alias TaskTracker.Users
 
+  # plug TaskTrackerWeb.Plugs.RequireAdmin when action in [:new, :create, :edit, :update, :delete]
+
   def index(conn, _params) do
     tasks = Tasks.list_tasks()
-    render(conn, "index.html", tasks: tasks)
+    user = Users.get_user(get_session(conn, :user_id) || -1)
+    user_id =
+    if is_nil(user) do
+      -1
+    else
+      user.id
+    end
+    render(conn, "index.html", tasks: tasks, user_id: user_id)
   end
 
   def new(conn, _params) do
     changeset = Tasks.change_task(%Task{})
-    render(conn, "new.html", changeset: changeset, users: Users.list_users)
+    user = Users.get_user(get_session(conn, :user_id) || -1)
+    underlings = Users.get_underlings(user.id)
+    render(conn, "new.html", changeset: changeset, underlings: underlings, users: Users.list_users)
   end
 
   def create(conn, %{"task" => task_params}) do
@@ -23,21 +34,23 @@ defmodule TaskTrackerWeb.TaskController do
         |> redirect(to: Routes.task_path(conn, :show, task))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        users = Users.list_users()
-        render(conn, "new.html", changeset: changeset, users: users)
+        user = Users.get_user(get_session(conn, :user_id))
+        underlings = Users.get_underlings(user.id)
+        render(conn, "new.html", changeset: changeset, underlings: underlings, users: Users.list_users)
     end
   end
 
   def show(conn, %{"id" => id}) do
     task = Tasks.get_task!(id)
-    # user_id = get_session(conn, :user_id)
     render(conn, "show.html", task: task)
   end
 
   def edit(conn, %{"id" => id}) do
     task = Tasks.get_task!(id)
     changeset = Tasks.change_task(task)
-    render(conn, "edit.html", task: task, changeset: changeset, users: Users.list_users)
+    user = Users.get_user(get_session(conn, :user_id))
+    underlings = Users.get_underlings(user.id)
+    render(conn, "edit.html", task: task, changeset: changeset, underlings: underlings, users: Users.list_users)
   end
 
   def update(conn, %{"id" => id, "task" => task_params}) do
@@ -50,7 +63,9 @@ defmodule TaskTrackerWeb.TaskController do
         |> redirect(to: Routes.task_path(conn, :show, task))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", task: task, changeset: changeset, users: Users.list_users)
+        user = Users.get_user(get_session(conn, :user_id))
+        underlings = Users.get_underlings(user.id)
+        render(conn, "edit.html", task: task, changeset: changeset, underlings: underlings, users: Users.list_users)
     end
   end
 

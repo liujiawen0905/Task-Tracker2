@@ -1,12 +1,57 @@
 <h1>Listing Tasks</h1>
 
+<%= for task <- @tasks do %>
+  <%= if @user_id==task.user.id do %>
+  <h2>My Tasks</h2>
+  <table class="table table-striped"> 
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Desc</th>
+        <th>Work time</th>
+        <th>Task status</th>
+        <th>Time Block</th>
+
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= task.name %></td>
+        <td><%= task.desc %></td>
+        <td><%= task.work_time %></td>
+        <td><%= task.task_status %></td>
+
+        <td>
+        <button class="btn btn-primary" id="start-button">Start</button>
+        <button class="btn btn-primary disabled" id="stop-button"
+          time-start="" data-task-id="<%=task.id%>">End</button>
+        </td>
+
+        <td>
+          <%= link "Show", to: Routes.task_path(@conn, :show, task),
+              class: "btn btn-secondary" %>
+          <%= link "Edit", to: Routes.task_path(@conn, :edit, task),
+              class: "btn btn-info" %>
+          <%= link "Delete", to: Routes.task_path(@conn, :delete, task),
+              method: :delete, data: [confirm: "Are you sure?"],
+              class: "btn btn-danger" %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <% end %>
+<% end %>
+
+<h2>All tasks:</h2>
 <table class="table table-striped">
   <thead>
     <tr>
       <th>Name</th>
-      <th>Desc</th>
-      <th>Work time</th>
-      <th>Task status</th>
+        <th>Desc</th>
+        <th>Work time</th>
+        <th>Task status</th>
+        <th>Time Block</th>
 
       <th></th>
     </tr>
@@ -20,19 +65,29 @@
       <td><%= task.task_status %></td>
 
       <td>
-        <%= link "Show", to: Routes.task_path(@conn, :show, task),
-            class: "btn btn-secondary" %>
-        <%= link "Edit", to: Routes.task_path(@conn, :edit, task),
-            class: "btn btn-info" %>
-        <%= link "Delete", to: Routes.task_path(@conn, :delete, task),
-            method: :delete, data: [confirm: "Are you sure?"],
-            class: "btn btn-danger" %>
+        <button class="btn btn-primary" id="start-button">Start</button>
+        <button class="btn btn-primary disabled" id="stop-button"
+          time-start="" data-task-id="<%=task.id%>">End</button>
+      </td>
+
+      <td>
+        <%= link "Show", to: Routes.task_path(@conn, :show, task),  class: "btn btn-secondary" %>
+        <%= if @user_id != -1 do %>
+          <%= link "Edit", to: Routes.task_path(@conn, :edit, task),  class: "btn btn-info" %>
+          <%= link "Delete", to: Routes.task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"],  class: "btn btn-danger" %>
+        <% end %>     
       </td>
     </tr>
 <% end %>
   </tbody>
-</table>
+</table>  
 
-<span>
-<%= link "New Task", to: Routes.task_path(@conn, :new), class: 'btn btn-primary' %>
-</span>
+
+
+
+<%= if @user_id != -1 do %>
+  <span><%= link "Assign Task", to: Routes.task_path(@conn, :new),  class: "btn btn-primary" %></span>
+<% else %>
+  <strong>Please Log in to Create Task</strong>
+<% end %>
+

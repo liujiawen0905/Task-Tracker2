@@ -1,5 +1,0 @@
-<h1>New Duration work</h1>
-
-<%= render "form.html", Map.put(assigns, :action, Routes.duration_work_path(@conn, :create)) %>
-
-<span><%= link "Back", to: Routes.duration_work_path(@conn, :index) %></span>

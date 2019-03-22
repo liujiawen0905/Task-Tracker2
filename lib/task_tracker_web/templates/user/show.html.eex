@@ -27,8 +27,12 @@
     </thead>
     <tbody>
       <tr>
-        <td><%= @manager.email %></td>
-        <td><%= link "Show", to: Routes.user_path(@conn, :show, @manager.id), class: "btn btn-primary" %> </td>
+        <%= if @manager do %>
+          <td><%= @manager.email %></td>
+          <td><%= link "Show", to: Routes.user_path(@conn, :show, @manager.id), class: "btn btn-primary" %> </td>
+          <% else %>
+          <td> No manager </td>
+          <% end %>
       </tr>
     </tbody>
   </table>

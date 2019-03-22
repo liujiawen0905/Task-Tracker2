@@ -23,9 +23,9 @@
         <td><%= task.task_status %></td>
 
         <td>
-        <button class="btn btn-primary" id="start-button">Start</button>
-        <button class="btn btn-primary disabled" id="stop-button"
-          time-start="" data-task-id="<%=task.id%>">End</button>
+        <button class="btn btn-success" id="start-button">Start</button>
+        <button class="btn btn-warning" id="end-button"
+          start-time="" task-id="<%=task.id%>">End</button>
         </td>
 
         <td>
@@ -64,17 +64,24 @@
       <td><%= task.work_time %></td>
       <td><%= task.task_status %></td>
 
+
+      <%= if @user_id==task.user.id do %>
       <td>
-        <button class="btn btn-primary" id="start-button">Start</button>
-        <button class="btn btn-primary disabled" id="stop-button"
-          time-start="" data-task-id="<%=task.id%>">End</button>
+        <button class="btn btn-success" id="start-button">Start</button>
+        <button class="btn btn-warning" id="end-button"
+          start-time="" task-id="<%=task.id%>">End</button>
       </td>
+      <% else %>
+      <td> Buttons are not available</td>
+      <% end %>
 
       <td>
         <%= link "Show", to: Routes.task_path(@conn, :show, task),  class: "btn btn-secondary" %>
         <%= if @user_id != -1 do %>
-          <%= link "Edit", to: Routes.task_path(@conn, :edit, task),  class: "btn btn-info" %>
-          <%= link "Delete", to: Routes.task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"],  class: "btn btn-danger" %>
+          <% if @user_id == task.user.id do %>
+            <%= link "Edit", to: Routes.task_path(@conn, :edit, task),  class: "btn btn-info" %>
+            <%= link "Delete", to: Routes.task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"],  class: "btn btn-danger" %>
+          <% end %>  
         <% end %>     
       </td>
     </tr>

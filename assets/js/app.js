@@ -21,40 +21,34 @@ import _ from "lodash";
 // import socket from "./socket"
 
 $(function () {
-  
     $('#start-button').click((ev) => {
-      let current_time = new Date($.now())
-      console.log(current_time)
-      $('#start-button').addClass("disabled")
-      $('#stop-button').removeClass("disabled")
-      $('#stop-button').attr('time-start', current_time)
+      let current_start_time = new Date($.now())
+      console.log(current_start_time)
+      $('#end-button').attr('start-time', current_start_time)
     })
   
-  
-    $('#stop-button').click((ev) => {
+    $('#end-button').click((ev) => {
       let end_time = new Date($.now())
-      $('#start-button').removeClass("disabled")
-      $('#stop-button').addClass("disabled")
-      let start_time = new Date($('#stop-button').attr('time-start'))
-      let task_id = $('#stop-button').attr('data-task-id')
+      console.log(end_time)
+      let start_time = new Date($('#end-button').attr('start-time'))
+      let task_id = $('#end-button').attr('task-id')
       let text = JSON.stringify({
-        time_block: {
-          end_time: end_time,
+          time_block: {
           start_time: start_time,
+          end_time: end_time,
           task_id: parseInt(task_id),
         },
       });
       console.log(text)
   
-      $.ajax('ajax/timeblocks', {
+      $.ajax('ajax/time_blocks',{
         method: "post",
         dataType: "json",
         contentType: "application/json; charset=UTF-8",
         data: text,
         success: (resp) => {
-          console.log("added ", text);
+          console.log("successfully create ", text);
         },
       });
     });
-  
   })

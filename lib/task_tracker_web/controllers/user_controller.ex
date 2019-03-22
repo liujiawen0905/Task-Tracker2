@@ -38,7 +38,7 @@ defmodule TaskTrackerWeb.UserController do
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
     manager_id = user.manager
-    manager = Users.get_user!(manager_id)
+    manager = manager_id && Users.get_user!(manager_id)
     render(conn, "show.html", user: user, manager: manager)
   end
 

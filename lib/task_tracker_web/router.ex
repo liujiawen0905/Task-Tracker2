@@ -30,7 +30,7 @@ defmodule TaskTrackerWeb.Router do
     resources "/sessions", SessionController, only: [:create, :delete], singleton: true
   end
 
-  scope "/ajax", TasktrackerWeb do
+  scope "/ajax", TaskTrackerWeb do
     pipe_through :ajax
     resources "/time_blocks", TimeBlockController, except: [:new, :edit]
  end

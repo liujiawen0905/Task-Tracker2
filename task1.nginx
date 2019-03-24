@@ -3,7 +3,7 @@ server {
     listen [::]:80;
 
     # TODO: This should be your server name.
-    server_name task1.jiawensuperman.me
+    server_name tasks2.jiawensuperman.me
 
     location / {
         proxy_pass http://localhost:6000;

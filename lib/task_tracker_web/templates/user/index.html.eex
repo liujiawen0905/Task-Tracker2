@@ -14,8 +14,6 @@
     <tr>
       <td><%= user.email %></td>
       <td><%= user.admin %></td>
-      <td><%= user.id %></td>
-      <td><%= @user_id %></td>
 
       <td>
         <%= link "Show", to: Routes.user_path(@conn, :show, user), class: "btn btn-secondary"%>
